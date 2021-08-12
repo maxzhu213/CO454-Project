@@ -10,7 +10,7 @@ class Transition:
         return self.v2
 
     def __repr__(self):
-        return repr(self.v1) + ", " + repr(self.v2)
+        return "({v1}, {v2})".format(v1 = repr(self.v1), v2 = repr(self.v2))
 
     def __eq__(self, other):
         return self.v1 == other.v1 and self.v2 == other.v2
