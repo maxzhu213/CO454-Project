@@ -52,12 +52,13 @@ def main():
 
     # Add constraints
     for p in plots:
-        for t in range(time - 1):
+        for t in range(1, time - 1):
             states = prob.stateSets(p, t)
+            m.addConstr(sum(map(lambda a: xs[(p, a, t)], prob.transitions(p, t))) <= 1)
             for v in states:
                 minusStates = prob.transitionsMinus(p, t, v)
                 plusStates = prob.transitionsPlus(p, t, v)
-                m.addConstr(sum(map(lambda a: xs[(p, a, t)], minusStates)) - sum(map(lambda a: xs[(p, a, t + 1)], plusStates)) == 0)
+                m.addConstr(sum(map(lambda a: xs[(p, a, t)], minusStates)) == sum(map(lambda a: xs[(p, a, t + 1)], plusStates)))
 
     # Solve it!
     m.optimize()
